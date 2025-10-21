@@ -5,13 +5,23 @@ import subprocess
 import time
 import shutil
 import signal
-import threading
 from pathlib import Path
 import re
-import webbrowser
+from colorama import init as colorama_init, Fore, Style
+import sys
 
-
+def esc(s: str) -> str:
+    return f"\x1b[{s}m"
 # ========== CONFIGURATION ==========
+GREEN = esc("38;5;1")  
+BLUE = esc("38;5;12")
+YELLOW = esc("38;5;11")
+RED = esc("38;5;9")
+MAGENTA = esc("38;5;13")
+CYAN = esc("38;5;14")
+WHITE = esc("38;5;15")
+
+RESET = esc("0")
 # ...existing code...
 VERSION = "1.0"
 PORT = 8080
@@ -449,6 +459,9 @@ def start_php_and_tunnel_flow(option):
         except:
             pass
         return
+def esc(s): return f"\x1b[{s}m"
+RESET = esc("0")
+
 
 # ========== MAIN PROGRAM ==========
 def update_local_url():
@@ -461,23 +474,21 @@ def main_menu():
     update_local_url()
     while True:
         os.system("clear" if os.name != "nt" else "cls")
-        print(r"""
-||======╗ ||\    ||    //\\    ||======╗     ⠀⢀⣀⣤⣤⣤⣤⣄⡀⠀     
-||        ||\\   ||   //  \\   ||      ]   ⢀⣤⣾⣿⣾⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀  
-||        || \\  ||  //====\\  ||      ]  ⢠⣾⣿⢛⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀  
-||======╗ ||  \\ || //      \\ ||======╝  ⣿⡿⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠻⢿⡵  
-       || ||   \\||            ||         ⢸⡇⠀⠀⠉⠛⠛⣿⣿⠛⠛⠉⠀⠀⣿⡇  
-       || ||    \||            ||         ⢸⣿⣀⠀⢀⣠⣴⡇⠹⣦⣄⡀⠀⣠⣿⡇  
-||======╝ ||     ||            ||         ⠈⠻⠿⠿⣟⣿⣿⣦⣤⣼⣿⣿⠿⠿⠟⠀  
-                     [SnapPhish]              ⠸⡿⣿⣿⢿⡿⢿⠇⠀⠀   
-                   [PC+programmer]              ⠈⠁⠈⠁⠀     
-""")
-        print("Please select an option:\n")
-        print(f"[1] Start snaphish")
-        print(f"[2] Change the default port (current: {PORT})")
-        print(f"[3] Change the image directory (current: {FOL})")
-        print("[4] Credits")
-        print("[0] Exit\n")
+        print(f"{GREEN}||======╗ ||\\    ||    //\\\\    ||======╗     ⠀⢀⣀⣤⣤⣤⣤⣄⡀⠀     {RESET}  ")
+        print(f"{BLUE}||        ||\\\\   ||   //  \\\\   ||      ]   ⢀⣤⣾⣿⣾⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀  {RESET}  ")
+        print(f"{YELLOW}||        || \\\\  ||  //====\\\\  ||      ]  ⢠⣾⣿⢛⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀  {RESET}  ")
+        print(f"{RED}||======╗ ||  \\\\ || //      \\\\ ||======╝  ⣿⡿⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠻⢿⡵  {RESET} ") 
+        print(f"{GREEN}       || ||   \\\\||            ||         ⢸⡇⠀⠀⠉⠛⠛⣿⣿⠛⠛⠉⠀⠀⣿⡇  {RESET}") 
+        print(f"{GREEN}       || ||    \\||            ||         ⢸⣿⣀⠀⢀⣠⣴⡇⠹⣦⣄⡀⠀⣠⣿⡇  {RESET}") 
+        print(f"{GREEN}||======╝ ||     ||            ||         ⠈⠻⠿⠿⣟⣿⣿⣦⣤⣼⣿⣿⠿⠿⠟⠀  {RESET}")
+        print(f"{GREEN}                     [SnapPhish]              ⠸⡿⣿⣿⢿⡿⢿⠇⠀⠀    {RESET} ")
+        print(f"{GREEN}                   [PC+programmer]              ⠈⠁⠈⠁⠀       {RESET}  ")        
+        print(f"{BLUE}Please select an option:\n{RESET}")
+        print(f"{BLUE}[{RESET}{WHITE}1{RESET}{BLUE}] Start snaphish{RESET}")
+        print(f"{BLUE}[{RESET}{WHITE}2{RESET}{BLUE}] Change the default port (current: {PORT}){RESET}")
+        print(f"{BLUE}[{RESET}{WHITE}3{RESET}{BLUE}] Change the image directory (current: {FOL}){RESET}")
+        print(f"{BLUE}[{RESET}{WHITE}4{RESET}{BLUE}] Credits{RESET}")
+        print(f"{BLUE}[{RESET}{WHITE}0{RESET}{BLUE}] Exit\n{RESET}")
 
         try:
             option = input("[Snaphish]㉿>>$ ").strip()
@@ -538,3 +549,13 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n[!] Fatal error: {e}")
         exit(1)
+
+# # Print header
+# print("256-color foreground examples (0-255):\n")
+
+# for n in range(0, 256):
+#     # 38;5;N -> set foreground to color N
+#     print(f"{esc(f'38;5;{n1}')} {n:3d} \u2588\u2588\u2588 {RESET}", end='')
+#     # Print 16 colors per line
+#     if (n + 1) % 16 == 0:
+#         print()
